@@ -6,9 +6,10 @@ const Button = ({handleClick, text}) => (
   </button>
 )
 const StatisticLine = ({text, value}) => (
-  <div>
-    {text} {value}
-  </div>
+  <tr>
+    <td>{text}</td>
+    <td>{value}</td>
+  </tr>
 )
 
 const Statistics = ({good, neutral, bad}) => {
@@ -20,16 +21,20 @@ const Statistics = ({good, neutral, bad}) => {
     )
   }
   const all = good+neutral+bad
-  const average = (good-bad)/all
-  const positive = ((good+neutral)/all)*100 +" %"
+  const average = ((good-bad)/all).toFixed(1)
+  const positive = (((good+neutral)/all)*100).toFixed(1) +" %"
   return (
     <div>
+      <table>
+      <tbody>
       <StatisticLine text="good" value={good} />
       <StatisticLine text="neutral" value={neutral} />
       <StatisticLine text="bad" value={bad} />
       <StatisticLine text="all" value={all} />
       <StatisticLine text="average" value={average} />
       <StatisticLine text="positive" value={positive} />
+      </tbody>
+      </table>
     </div>
   )
 }
