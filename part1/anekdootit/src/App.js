@@ -10,6 +10,30 @@ const Random = (props) => (
   Math.floor(Math.random() * props)
 )
 
+const Vote = (props) => {
+
+  console.log(props)
+  console.log(props[0])
+  console.log(props[1])
+
+  const copy = {...props[1]}
+  copy[props[0]] += 1
+
+  return copy
+
+}
+
+const VoteInfo = (props) => (
+  <div>
+    has {props.votes[props.selected]} votes
+  </div>
+
+)
+
+
+  
+
+
 const App = () => {
   const anecdotes = [
     'If it hurts, do it more often.',
@@ -21,12 +45,16 @@ const App = () => {
     'Programming without an extremely heavy use of console.log is same as if a doctor would refuse to use x-rays or blood tests when dianosing patients.'
   ]
    
+  const a = Array(anecdotes.length).fill(0)
   const [selected, setSelected] = useState(0)
+  const [votes, setVotes] = useState(a)
 
   return (
     <div>
       {anecdotes[selected]}
+      <VoteInfo selected={selected} votes={votes}/>
       <div>
+      <Button handleClick={() => setVotes(Vote([selected, votes]))} text="vote"/>
       <Button handleClick={() => setSelected(Random(anecdotes.length))} text="next anecdote"/>
       </div>
     </div>
