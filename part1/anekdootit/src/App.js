@@ -12,9 +12,9 @@ const Random = (props) => (
 
 const Vote = (props) => {
 
-  console.log(props)
-  console.log(props[0])
-  console.log(props[1])
+  //console.log(props)
+  //console.log(props[0])
+  //console.log(props[1])
 
   const copy = {...props[1]}
   copy[props[0]] += 1
@@ -30,6 +30,24 @@ const VoteInfo = (props) => (
 
 )
 
+const MostVotes = (props) => {
+  let most = 0
+  let index = 0
+  //console.log(props)
+  for (let i = 0; i < props.anecdotes.length; i++) {
+    if (props.votes[i] > most) {
+      most = props.votes[i]
+      index = i
+    }
+  }
+
+  return (
+    <div>
+      {props.anecdotes[index]}
+      <VoteInfo selected={index} votes={props.votes}></VoteInfo>
+    </div>
+  )
+}
 
   
 
@@ -49,14 +67,18 @@ const App = () => {
   const [selected, setSelected] = useState(0)
   const [votes, setVotes] = useState(a)
 
+
   return (
     <div>
+      <h1>Anecdote of the day</h1>
       {anecdotes[selected]}
       <VoteInfo selected={selected} votes={votes}/>
       <div>
       <Button handleClick={() => setVotes(Vote([selected, votes]))} text="vote"/>
       <Button handleClick={() => setSelected(Random(anecdotes.length))} text="next anecdote"/>
       </div>
+      <h1>Anecdote with most votes</h1>
+      <MostVotes votes={votes} anecdotes={anecdotes} />
     </div>
   )
 }
