@@ -31,7 +31,7 @@ const App = () => {
     <div>
       find countries 
       <Filter value={newFilter} onChange={handleFilterChange}/>
-      <CountryView countryData={filtered} />
+      <CountryView countryData={filtered} filterFun={setNewFilter} />
     </div>
   )
 

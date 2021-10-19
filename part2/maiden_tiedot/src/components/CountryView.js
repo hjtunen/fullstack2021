@@ -1,8 +1,10 @@
 import React from "react"
 
-const Country = ({country}) => {
+const Country = ({country, filterFun}) => {
     return (
-      <div>{country.name}</div>
+      <div>{country.name}
+        <button onClick={() => filterFun(country.name)}>show</button>
+      </div>
     )
   }
 
@@ -28,7 +30,7 @@ const DetailView = ({country}) => {
 
 }
   
-const CountryView = ({countryData}) => {
+const CountryView = ({countryData, filterFun}) => {
     if (countryData.length > 10) {
         return <div>Too many matches, specify another filter</div>
     }
@@ -36,7 +38,7 @@ const CountryView = ({countryData}) => {
         return <DetailView country={countryData[0]} />
     }
     return countryData.map(country => 
-      <Country key={country.name} country={country}/>
+      <Country key={country.name} country={country} filterFun={filterFun} />
     )
   }
 
