@@ -8,6 +8,7 @@ import CountryView from "./components/CountryView"
 const App = () => {
   const [ newFilter, setNewFilter ] = useState('')
   const [countries, setCountries] = useState([])
+  const [weather, setWeather] = useState("")
 
   useEffect(() => {
     console.log('effect')
@@ -27,11 +28,33 @@ const App = () => {
   const filtered = countries.filter(country => 
     country.name.toLowerCase().includes(newFilter.toLowerCase()))
 
+
+  const api_key = process.env.REACT_APP_API_KEY
+  let query = `https://api.openweathermap.org/data/2.5/weather?q=Helsinki&appid=${api_key}&units=metric`
+  if (filtered.length === 1){
+    const country = filtered[0]
+    query = `https://api.openweathermap.org/data/2.5/weather?q=${country.capital}&appid=${api_key}&units=metric`
+  }
+  
+  
+
+  useEffect(() => {
+    console.log('effect')
+    axios
+      .get(query)
+      .then(response => {
+        console.log('promise fulfilled')
+        console.log(response.data)
+        setWeather(response.data)
+       })
+   }, [query])
+  
+
   return (
     <div>
       find countries 
       <Filter value={newFilter} onChange={handleFilterChange}/>
-      <CountryView countryData={filtered} filterFun={setNewFilter} />
+      <CountryView countryData={filtered} filterFun={setNewFilter} weather={weather} />
     </div>
   )
 
