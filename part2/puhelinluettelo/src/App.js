@@ -47,6 +47,25 @@ const App = () => {
     }
   }
 
+  const deletPerson = (id) => {
+    console.log(`delet id ${id}`)
+    const person = persons.find(x => x.id === id)
+    const choice = window.confirm(`Delete ${person.name}?`)
+
+    if (choice) {
+      personService
+      .delet(id)
+      .then(data => {
+        personService
+          .getAll()
+          .then(initialPersons => {
+            setPersons(initialPersons)
+          })
+      })
+    }
+
+  }
+
   const handleNameChange = (event) => {
     //console.log(event.target.value)
     setNewName(event.target.value)
@@ -77,7 +96,7 @@ const App = () => {
         numberChange={handleNumberChange}
       />
       <h2>Numbers</h2>
-      <Persons persons={filtered}/>
+      <Persons persons={filtered} onClick={deletPerson}/>
       
 
     </div>

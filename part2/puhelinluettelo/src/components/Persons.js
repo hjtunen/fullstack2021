@@ -1,14 +1,17 @@
 import React from "react"
 
-const Person = ({person}) => {
+const Person = ({person, onClick}) => {
     return (
-      <div>{person.name} {person.number}</div>
+      <div>
+        {person.name} {person.number}
+        <button onClick={() => onClick(person.id)}>delete</button>
+      </div>
     )
   }
   
-const Persons = ({persons}) => {
+const Persons = ({persons, onClick}) => {
     return persons.map(person => 
-      <Person key={person.name} person={person}/>
+      <Person key={person.name} person={person} onClick={onClick}/>
     )
   }
 
