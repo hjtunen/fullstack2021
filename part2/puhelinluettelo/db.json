@@ -27,13 +27,8 @@
     },
     {
       "name": "bbb",
-      "number": "123",
+      "number": "2345",
       "id": 6
-    },
-    {
-      "name": "ccc",
-      "number": "213",
-      "id": 7
     }
   ]
 }

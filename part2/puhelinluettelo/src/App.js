@@ -3,6 +3,7 @@ import Persons from './components/Persons'
 import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
 import personService from "./services/persons"
+import Notification from './components/Notification'
 
 
 const App = () => {
@@ -16,6 +17,8 @@ const App = () => {
   const [ newName, setNewName ] = useState('')
   const [ newNumber, setNewNumber ] = useState('')
   const [ newFilter, setNewFilter ] = useState('')
+  const [message, setMessage] = useState(null)
+  const [success, setSuccess] = useState(true)
 
   useEffect(() => {
     console.log('effect')
@@ -46,7 +49,24 @@ const App = () => {
               .getAll()
               .then(initialPersons => {
                 setPersons(initialPersons)
+                setMessage(`Number of ${newName} updated to ${newNumber}`)
+                setSuccess(true)
+                setNewName("")
+                setNewNumber("")
+
+                setTimeout(() => {
+                  setMessage(null)
+                }, 5000)
               })
+          })
+          .catch(error => {
+            setMessage(`Informatioon of ${newName} not found`)
+            setSuccess(false)
+            setPersons(persons.filter(p => p.name !== newName))
+
+            setTimeout(() => {
+              setMessage(null)
+            }, 5000)
           })
       }
 
@@ -55,8 +75,14 @@ const App = () => {
         .create(personObject)
         .then(returnedPerson => {
           setPersons(persons.concat(returnedPerson))
+          setMessage(`Added ${newName}`)
+          setSuccess(true)
           setNewName("")
           setNewNumber("")
+
+          setTimeout(() => {
+            setMessage(null)
+          }, 5000)
         })
     }
   }
@@ -74,6 +100,12 @@ const App = () => {
           .getAll()
           .then(initialPersons => {
             setPersons(initialPersons)
+            setMessage(`Deleted ${person.name}`)
+            setSuccess(true)
+
+            setTimeout(() => {
+              setMessage(null)
+            }, 5000)
           })
       })
     }
@@ -99,6 +131,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+        <Notification message={message} success={success} />
         filter shown with
         <Filter value={newFilter} onChange={handleFilterChange}/>
       <h2>add a new</h2>
